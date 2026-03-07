@@ -75,6 +75,7 @@ public class ListaSimples implements ListaOperacoes {
         }
     }
 
+    //Júlio
     @Override
     public int removerTodas(String elemento) {
         return 0;
@@ -83,50 +84,70 @@ public class ListaSimples implements ListaOperacoes {
     //Yuji
     @Override
     public int contar() {
-
-
-
-
-
-
-        return 0;
+        int quantidade = 0;
+        for (int i = 0; i < lista.length; i++) {
+            quantidade++;
+        }
+        return quantidade;
     }
 
+    //Guilherme
     @Override
     public int adicionarVarios(String[] elementos) {
         return 0;
     }
 
+    //Yuji
     @Override
     public String obter(int indice) {
-        return "";
+        if (indice < 0 || indice >= lista.length) {
+            System.out.println("Índice inválido");
+            return null;
+        }
+        return lista[indice];
     }
 
+    //Eduardo
     @Override
     public boolean inserir(int indice, String elemento) {
         return false;
     }
 
+    //Yuji
     @Override
     public String removerPorIndice(int indice) {
-        return "";
-    }
+        String removido = "";
+        if (indice < 0 || indice >= lista.length) {
+            return "Índice inválido.";
+        } else {
+            removido = lista[indice]; //guarda o elemento a ser removido
+            for (int i = indice; i < lista.length - 1; i++) { //percorre a lista até o último elemento
+                lista[i] = lista[i + 1]; //desloca a lista à direita
+            }
+            lista[lista.length - 1] = null; //remove o último elemento
 
+            return removido; //retorna o elemento removido
+        }
+    }
+    //Eduardo
     @Override
     public void limpar() {
 
     }
 
+    //Guilherme
     @Override
     public int ultimoIndiceDe(String elemento) {
         return 0;
     }
 
+    //Júlio
     @Override
     public int contarOcorrencias(String elemento) {
         return 0;
     }
 
+    //Eduardo
     @Override
     public int substituir(String antigo, String novo) {
         return 0;

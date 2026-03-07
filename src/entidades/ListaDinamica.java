@@ -89,11 +89,13 @@ public class ListaDinamica implements ListaOperacoes {
         return false;
     }
 
+    //Júlio
     @Override
     public int removerTodas(String elemento) {
         return 0;
     }
 
+    //Yuji
     @Override
     public int contar() {
         int quantidade = 0;
@@ -111,41 +113,76 @@ public class ListaDinamica implements ListaOperacoes {
         return quantidade;
     }
 
+    //Guilherme
     @Override
     public int adicionarVarios(String[] elementos) {
         return 0;
     }
 
+    //Yuji
     @Override
     public String obter(int indice) {
-        return "";
+        if (indice < 0) {
+            System.out.println("Índice inválido.");
+            return null;
+        } else {
+            No aux = this.inicio;
+            for (int i = 0; i < indice; i++) {
+                aux = aux.getProx();
+            }
+            return "O elemento '" + aux.getConteudo() + "' está no índice " + indice + ".";
+        }
     }
 
+    //Eduardo
     @Override
     public boolean inserir(int indice, String elemento) {
         return false;
     }
 
+    //Yuji
     @Override
     public String removerPorIndice(int indice) {
-        return "";
+        if (indice < 0) {
+            System.out.println("Índice inválido.");
+            return null;
+        } else {
+            String removido = "";
+            if (indice == 0) {
+                removido = this.inicio.getConteudo();
+                this.inicio = this.inicio.getProx();
+                return removido;
+            } else {
+                No aux = this.inicio;
+                for (int i = 0; i < indice - 1; i++) {
+                    aux = aux.getProx();
+                    removido = aux.getProx().getConteudo();
+                    aux.setProx(aux.getProx().getProx());
+                }
+                return removido;
+            }
+        }
     }
 
+    //Eduardo
     @Override
     public void limpar() {
 
     }
 
+    //Guilherme
     @Override
     public int ultimoIndiceDe(String elemento) {
         return 0;
     }
 
+    //Júlio
     @Override
     public int contarOcorrencias(String elemento) {
         return 0;
     }
 
+    //Eduardo
     @Override
     public int substituir(String antigo, String novo) {
         return 0;
