@@ -110,7 +110,47 @@ public class ListaSimples implements ListaOperacoes {
     //Eduardo
     @Override
     public boolean inserir(int indice, String elemento) {
-        return false;
+
+        if (indice < 0 || indice >= lista.length) { //validar se o índice é válido
+            System.out.println("Índice inválido");
+            return false;
+        } else if (estaCheio()){ // validar se há espaço na lista
+            System.out.println("Não há espaço disponível na lista.");
+            return false;
+        }
+
+        // busca o slot livre mais próximo à direita do índice
+        int livreADireita = -1;
+        for (int i = indice; i < lista.length; i++) {
+            if (lista[i] == null) {
+                livreADireita = i;
+                break;
+            }
+        }
+
+        if (livreADireita != -1) {
+            // desloca para a direita até o slot livre
+            for (int j = livreADireita; j > indice; j--) {
+                lista[j] = lista[j - 1];
+            }
+        } else {
+            // slot livre está à esquerda, então desloca para a esquerda
+            int livreAEsquerda = -1;
+            for (int i = indice - 1; i >= 0; i--) {
+                if (lista[i] == null) {
+                    livreAEsquerda = i;
+                    break;
+                }
+            }
+            for (int j = livreAEsquerda; j < indice - 1; j++) {
+                lista[j] = lista[j + 1];
+            }
+            indice = indice - 1;
+        }
+        lista[indice] = elemento;
+
+        System.out.println("Operação realizada com sucesso! O elemento " + elemento + " foi inserido na posição " + indice);
+        return true;
     }
 
     //Yuji
@@ -132,7 +172,8 @@ public class ListaSimples implements ListaOperacoes {
     //Eduardo
     @Override
     public void limpar() {
-
+    lista = new String[lista.length];
+        System.out.println("A lista foi limpa com sucesso!");
     }
 
     //Guilherme
@@ -150,6 +191,14 @@ public class ListaSimples implements ListaOperacoes {
     //Eduardo
     @Override
     public int substituir(String antigo, String novo) {
-        return 0;
+        int quantidade = 0;
+        for (int i = 0; i < lista.length; i++) {
+            if (lista[i].equals(antigo)){
+                lista[i] = novo;
+                quantidade++;
+            }
+        }
+        System.out.println("Operação realizada com sucesso! " + quantidade + " ocorrências do elemento " + antigo + " foram substituídas por " + novo);
+        return quantidade;
     }
 }

@@ -137,7 +137,34 @@ public class ListaDinamica implements ListaOperacoes {
     //Eduardo
     @Override
     public boolean inserir(int indice, String elemento) {
-        return false;
+        if (indice < 0) {
+            System.out.println("Índice inválido.");
+            return false;
+        }
+
+        No novoNo = new No(elemento);
+
+        if (indice == 0) {
+            if (inicioVazio()) {
+                this.inicio.setConteudo(elemento);
+            } else {
+                novoNo.setProx(this.inicio);
+                this.inicio = novoNo;
+            }
+        }else {
+            No aux = this.inicio;
+            for (int i = 0; i < indice - 1; i++) { // isso garante que não haverá um nullpointerexception
+                if (aux.getProx() == null) {
+                    System.out.println("Índice fora do alcance.");
+                    return false;
+                }
+                aux = aux.getProx();
+            }
+            novoNo.setProx(aux.getProx()); //novoNo aponta para quem estava no indice, aux aponta para novoNo
+            aux.setProx(novoNo);
+        }
+        System.out.println("Elemento '" + elemento + "' inserido no índice " + indice + ".");
+        return true;
     }
 
     //Yuji
@@ -167,7 +194,8 @@ public class ListaDinamica implements ListaOperacoes {
     //Eduardo
     @Override
     public void limpar() {
-
+        this.inicio = new No(null);
+        System.out.println("Lista limpa com sucesso!");
     }
 
     //Guilherme
@@ -185,6 +213,19 @@ public class ListaDinamica implements ListaOperacoes {
     //Eduardo
     @Override
     public int substituir(String antigo, String novo) {
-        return 0;
+        int quantidade = 0;
+
+        No aux = this.inicio;
+        while (aux != null) {
+            if (aux.getConteudo() != null && aux.getConteudo().equals(antigo)) {
+                aux.setConteudo(novo);
+                quantidade++;
+            }
+            aux = aux.getProx();
+        }
+
+        System.out.println("Operação realizada com sucesso! " + quantidade +
+                " ocorrências do elemento " + antigo + " foram substituídas por " + novo);
+        return quantidade;
     }
 }
