@@ -193,7 +193,7 @@ public class ListaSimples implements ListaOperacoes {
     public int substituir(String antigo, String novo) {
         int quantidade = 0;
         for (int i = 0; i < lista.length; i++) {
-            if (lista[i].equals(antigo)){
+            if (lista[i] != null && lista[i].equals(antigo)){
                 lista[i] = novo;
                 quantidade++;
             }
