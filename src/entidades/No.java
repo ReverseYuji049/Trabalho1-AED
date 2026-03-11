@@ -4,7 +4,6 @@ public class No {
     String conteudo;
     No prox = null;
 
-
     public No(String conteudo) {
         this.conteudo = conteudo;
     }

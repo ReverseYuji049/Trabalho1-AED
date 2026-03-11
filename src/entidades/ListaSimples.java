@@ -8,6 +8,10 @@ public class ListaSimples implements ListaOperacoes {
         System.out.println("Operação realizada com sucesso! Existem " + tamanho + " posições disponíveis.");
     }
     public void adicionarElemento(String elemento) {
+        if (elemento == null) {
+            System.out.println("Não é possível adicionar elemento nulo.");
+            return;
+        }
         if (!this.estaCheio()) {
             lista[encontrarPosicao()] = elemento;
         }
@@ -36,13 +40,18 @@ public class ListaSimples implements ListaOperacoes {
         }
     }
     public void removerElemento(String elemento) {
+        //verifica lista vazia
+        if (estaVazio()) {
+            System.out.println("Não há elementos a serem removidos.");
+            return;
+        }
         boolean removido = false;
-        if (!estaVazio()) {
-            for (int i = 0; i < lista.length; i++) {
-                if (this.lista[i] != null && this.lista[i].equals(elemento)) {
-                    this.lista[i] = null;
-                    removido = true;
-                }
+        //percorre a lista
+        for (int i = 0; i < lista.length; i++) {
+            //verifica se o elemento existe antes de comparar
+            if (this.lista[i] != null && this.lista[i].equals(elemento)) {
+                this.lista[i] = null;
+                removido = true;
             }
         }
         if (removido) {
@@ -60,25 +69,37 @@ public class ListaSimples implements ListaOperacoes {
         return true;
     }
     public void buscarElemento(String elemento) {
-        boolean encontrado = false;
-        if (!estaVazio()) {
-            for (int i = 0; i < lista.length; i++) {
-                if (this.lista[i] != null && this.lista[i].equals(elemento)) {
-                    encontrado = true;
-                }
+        //verifica lista vazia
+        if (estaVazio()) {
+            System.out.println("Não há elementos a serem procurados.");
+            return;
+        }
+        //percorre a lista
+        for (int i = 0; i < lista.length; i++) {
+            if (lista[i] != null && lista[i].equals(elemento)) { //verifica se o elemento não é nulo e se existe
+                System.out.println("O elemento " + elemento + " existe na lista.");
+                return;
             }
         }
-        if (encontrado) {
-            System.out.println("O elemento " + elemento + " existe na lista.");
-        } else {
-            System.out.println("O elemento " + elemento + " não existe na lista.");
-        }
+        System.out.println("O elemento " + elemento + " não existe na lista.");
     }
 
     //Júlio
     @Override
     public int removerTodas(String elemento) {
-        return 0;
+        if (estaVazio()) {
+            System.out.println("A lista está vazia.");
+            return 0;
+        }
+        int qtd = 0;
+        for(int i = 0; i < this.lista.length; i++){
+            if(this.lista[i] != null && this.lista[i].equals(elemento)){
+                this.lista[i] = null;
+                qtd++;
+            }
+        }
+        System.out.println("O elemento " + elemento + " foi apagado " + qtd + " vezes na lista.");
+        return qtd;
     }
 
     //Yuji
@@ -86,15 +107,28 @@ public class ListaSimples implements ListaOperacoes {
     public int contar() {
         int quantidade = 0;
         for (int i = 0; i < lista.length; i++) {
-            quantidade++;
+            if (lista[i] != null) {
+                quantidade++;
+            }
         }
+        System.out.println("A lista possui " + quantidade + " elementos.");
         return quantidade;
     }
 
-    //Guilherme
+    //Júlio
     @Override
     public int adicionarVarios(String[] elementos) {
-        return 0;
+        int contador = 0;
+        for(int i = 0; i < elementos.length; i++){
+            if(!this.estaCheio()) {
+                this.adicionarElemento(elementos[i]);
+                contador++;
+            } else {
+                break;
+            }
+        }
+        System.out.println(contador + " Elementos foram adicionados.");
+        return contador;
     }
 
     //Yuji
@@ -156,36 +190,76 @@ public class ListaSimples implements ListaOperacoes {
     //Yuji
     @Override
     public String removerPorIndice(int indice) {
-        String removido = "";
+        //verifica lista vazia
+        if (estaVazio()) {
+            return "Não há elementos a serem removidos.";
+        }
+        //verifica se o índice é válido
         if (indice < 0 || indice >= lista.length) {
             return "Índice inválido.";
-        } else {
-            removido = lista[indice]; //guarda o elemento a ser removido
-            for (int i = indice; i < lista.length - 1; i++) { //percorre a lista até o último elemento
-                lista[i] = lista[i + 1]; //desloca a lista à direita
-            }
-            lista[lista.length - 1] = null; //remove o último elemento
-
-            return removido; //retorna o elemento removido
         }
+        //se não houver elemento na posição
+        if (lista[indice] == null) {
+            return "Não existe elemento neste índice.";
+        }
+        //guarda o elemento removido
+        String removido = lista[indice];
+        //desloca os elementos para a esquerda
+        for (int i = indice; i < lista.length - 1; i++) {
+            lista[i] = lista[i + 1];
+        }
+        //limpa a última posição
+        lista[lista.length - 1] = null;
+
+        return "Elemento '" + removido + "' removido do índice " + indice;
     }
+
     //Eduardo
     @Override
     public void limpar() {
-    lista = new String[lista.length];
+        lista = new String[lista.length];
         System.out.println("A lista foi limpa com sucesso!");
     }
 
     //Guilherme
     @Override
     public int ultimoIndiceDe(String elemento) {
-        return 0;
+        int ultimoIndice = -1;
+        String comparador = elemento.trim().toLowerCase();
+        if (contarOcorrencias(elemento) == 0) {
+            System.out.println("Não existe "+elemento+" na lista");
+            return ultimoIndice;
+        } else {
+            for (int i = 0; i<this.lista.length; i++) {
+                if (this.lista[i] != null && comparador.equals(this.lista[i].trim().toLowerCase())) {
+                    ultimoIndice = i;
+                }
+            }
+            return ultimoIndice;
+        }
     }
 
     //Júlio
     @Override
     public int contarOcorrencias(String elemento) {
-        return 0;
+        if(elemento == null){
+            return 0;
+        }
+        if(estaVazio()) {
+            System.out.println("Não há elementos na lista.");
+            return 0;
+        }
+        int ocorrencias = 0;
+        for (int i = 0; i < this.lista.length; i++) {
+            if (this.lista[i] != null && this.lista[i].equals(elemento)) {
+                ocorrencias++;
+
+            }
+        }
+        if(ocorrencias == 0){
+            System.out.println("O elemento " + elemento + " não foi encontrado.");
+        }
+        return ocorrencias;
     }
 
     //Eduardo
